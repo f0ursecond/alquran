@@ -32,6 +32,9 @@ class _loginPageState extends State<loginPage> {
                     icon: Icons.email,
                     hint: '',
                   ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   const Password(
                     icon: Icons.lock,
                     hint: 'Masukan Password Anda',

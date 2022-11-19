@@ -11,7 +11,7 @@ class appColor with ChangeNotifier {
     notifyListeners();
   }
 
-  Color get color => (_isThemeDark) ? Colors.black : Colors.white;
+  Color get color => (_isThemeDark) ? const Color(0xFF091945) : Colors.white;
 }
 
 class tColor with ChangeNotifier {
@@ -25,5 +25,5 @@ class tColor with ChangeNotifier {
     notifyListeners();
   }
 
-  Color get warna => (_isTextDark) ? Colors.white : Colors.black;
+  Color get warna => (_isTextDark) ? Colors.white : const Color(0xFF091945);
 }

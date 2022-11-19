@@ -1,6 +1,7 @@
 import 'package:crud/page/loginpage.dart';
 import 'package:crud/provider/app_color.dart';
 import 'package:crud/provider/product_provider.dart';
+import 'package:crud/provider/quran_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => appColor()),
         ChangeNotifierProvider(create: (context) => tColor()),
-        ChangeNotifierProvider(create: (context) => ProductProvider())
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => QuranProvider())
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

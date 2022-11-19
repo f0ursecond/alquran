@@ -1,6 +1,8 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:crud/provider/product_provider.dart';
+import 'package:crud/provider/quran_provider.dart';
 import 'package:crud/services/product_service.dart';
+import 'package:crud/services/quran_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -22,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ProductProvider>(context, listen: false).getAllProduct();
+      Provider.of<QuranProvider>(context, listen: false).getAllQuran();
     });
 
     super.initState();
@@ -59,120 +61,253 @@ class _HomePageState extends State<HomePage> {
       builder: ((context, appColor, tColor, _) => Scaffold(
             backgroundColor: appColor.color,
             appBar: AppBar(
-              backgroundColor: Colors.green,
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
               title: Text(
-                'Gabut Cok Sumpah',
-                style: TextStyle(color: tColor.warna, letterSpacing: 1),
+                'Al Quran App',
+                style: GoogleFonts.karla(color: tColor.warna),
               ),
             ),
-            body: Consumer<ProductProvider>(
-              builder: ((context, ProductProvider, child) => FutureBuilder(
-                    future: ProductService().getAll(),
-                    builder: ((context, index) {
-                      var value = ProductProvider;
-                      final product = value.product;
-                      if (index.error != null && !hasInternet) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    color: tColor.warna,
-                                  ),
+            body: DefaultTabController(
+              length: 3,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'ٱلسَّلَامُ عَلَيْكُمْ',
+                          style: GoogleFonts.amiri(
+                            color: tColor.warna,
+                            fontSize: 20,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 131,
+                      width: 326,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TabBar(
+                              labelColor: tColor.warna,
+                              indicatorColor: tColor.warna,
+                              tabs: const [
+                                Tab(
+                                  text: 'Surah',
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                                Tab(
+                                  text: 'Juz',
                                 ),
-                                Text(
-                                  'Check Your Connection & Try Again',
-                                  style: TextStyle(
-                                    color: tColor.warna,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      }
-                      if (index.connectionState == ConnectionState.waiting) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                    color: tColor.warna,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      } else {
-                        print('AKHIRNYA BISA COKK');
-
-                        return AnimationLimiter(
-                          child: ListView.builder(
-                            itemCount: value.product.length,
-                            itemBuilder: ((context, index) {
-                              final asu = product[index];
-                              return AnimationConfiguration.staggeredGrid(
-                                duration: const Duration(milliseconds: 100),
-                                columnCount: index,
-                                position: index,
-                                child: SlideAnimation(
-                                  child: Card(
-                                    color: appColor.color,
-                                    child: FadeInAnimation(
-                                      child: ListTile(
-                                        dense: true,
-                                        contentPadding: const EdgeInsets.all(2),
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          maxRadius: 12,
-                                          child: Center(
-                                            child: Text(
-                                              '${asu.id}.',
-                                              style: GoogleFonts.inter(
+                                Tab(
+                                  text: 'Bookmarks',
+                                )
+                              ]),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(children: [
+                        Consumer<QuranProvider>(
+                          builder: ((context, QuranProvider, child) =>
+                              FutureBuilder(
+                                future: QuranService().getAll(),
+                                builder: ((context, index) {
+                                  var value = QuranProvider;
+                                  final product = value.alquran;
+                                  if (index.error != null && !hasInternet) {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(
                                                 color: tColor.warna,
-                                                fontSize: 12,
                                               ),
                                             ),
-                                          ),
-                                        ),
-                                        title: Transform(
-                                          transform: Matrix4.translationValues(
-                                              -15, 0, 0),
-                                          child: Text(
-                                            asu.title,
-                                            style: TextStyle(
-                                              color: tColor.warna,
+                                            const SizedBox(
+                                              height: 20,
                                             ),
-                                          ),
+                                            Text(
+                                              'Check Your Connection & Try Again',
+                                              style: TextStyle(
+                                                color: tColor.warna,
+                                              ),
+                                            ),
+                                          ],
                                         ),
+                                      ],
+                                    );
+                                  }
+                                  if (index.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              height: 20,
+                                              width: 20,
+                                              child: CircularProgressIndicator(
+                                                color: tColor.warna,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    print('AKHIRNYA BISA COKK');
+
+                                    return AnimationLimiter(
+                                      child: ListView.separated(
+                                        separatorBuilder: (context, index) {
+                                          return Divider(
+                                            color: Colors.grey[100],
+                                            thickness: 0.2,
+                                          );
+                                        },
+                                        itemCount: value.alquran.length,
+                                        itemBuilder: ((context, index) {
+                                          final asu = product[index];
+                                          return AnimationConfiguration
+                                              .staggeredGrid(
+                                            duration: const Duration(
+                                                milliseconds: 100),
+                                            columnCount: index,
+                                            position: index,
+                                            child: SlideAnimation(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 3.0),
+                                                child: FadeInAnimation(
+                                                  child: ListTile(
+                                                    onTap: () {},
+                                                    dense: false,
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 5),
+                                                    leading: Container(
+                                                      width: 35,
+                                                      height: 35,
+                                                      decoration: const BoxDecoration(
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  'assets/images/leading.png'))),
+                                                      child: Center(
+                                                        child: Text(
+                                                          '${asu.nomor}',
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                  color: tColor
+                                                                      .warna,
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    trailing: Text(
+                                                      '${asu.nama}',
+                                                      style: GoogleFonts.amiri(
+                                                        color: tColor.warna,
+                                                        fontSize: 17,
+                                                        letterSpacing: 0.5,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    title: Text(
+                                                      asu.nama_latin,
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        color: tColor.warna,
+                                                        fontSize: 14,
+                                                        letterSpacing: 0.5,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    subtitle: Row(
+                                                      children: [
+                                                        Text(
+                                                          '${asu.arti} ',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Colors.grey,
+                                                            fontSize: 12,
+                                                            letterSpacing: 0.5,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '| ${asu.tempat_turun.toUpperCase()}',
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            color: Colors.grey,
+                                                            fontSize: 12,
+                                                            letterSpacing: 0.5,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                          ),
-                        );
-                      }
-                    }),
-                  )),
+                                    );
+                                  }
+                                }),
+                              )),
+                        ),
+                        Center(
+                          child: Text("Juz Page"),
+                        ),
+                        Center(
+                          child: Text("Bookmarks"),
+                        ),
+                      ]),
+                    )
+                  ],
+                ),
+              ),
             ),
           )),
     );
