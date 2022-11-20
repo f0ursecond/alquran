@@ -1,7 +1,7 @@
 import 'package:cherry_toast/cherry_toast.dart';
-import 'package:crud/provider/product_provider.dart';
+
 import 'package:crud/provider/quran_provider.dart';
-import 'package:crud/services/product_service.dart';
+
 import 'package:crud/services/quran_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../provider/app_color.dart';
 
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             body: DefaultTabController(
-              length: 3,
+              length: 4,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -93,10 +94,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.purple,
+                          gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(0xFFDF98FA),
+                              Color(0xFF9055FF),
+                            ],
+                          ),
                           borderRadius: BorderRadius.circular(10)),
                       height: 131,
                       width: 326,
+                      child: Stack(
+                        children: [
+                          Image.asset(
+                            'assets/images/kitab.png',
+                            fit: BoxFit.contain,
+                            width: 50.sp,
+                            height: 40.sp,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 5,
@@ -105,6 +123,11 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         Expanded(
                           child: TabBar(
+                              labelStyle: TextStyle(fontSize: 15.sp),
+                              indicator: UnderlineTabIndicator(
+                                  borderSide: BorderSide(width: 1.0),
+                                  insets:
+                                      EdgeInsets.symmetric(horizontal: 16.0)),
                               labelColor: tColor.warna,
                               indicatorColor: tColor.warna,
                               tabs: const [
@@ -112,10 +135,13 @@ class _HomePageState extends State<HomePage> {
                                   text: 'Surah',
                                 ),
                                 Tab(
-                                  text: 'Juz',
+                                  text: 'Para',
                                 ),
                                 Tab(
-                                  text: 'Bookmarks',
+                                  text: 'Page',
+                                ),
+                                Tab(
+                                  text: 'Hijb',
                                 )
                               ]),
                         ),
@@ -211,8 +237,9 @@ class _HomePageState extends State<HomePage> {
                                                         vertical: 3.0),
                                                 child: FadeInAnimation(
                                                   child: ListTile(
+                                                    isThreeLine: false,
                                                     onTap: () {},
-                                                    dense: false,
+                                                    dense: true,
                                                     contentPadding:
                                                         const EdgeInsets
                                                                 .symmetric(
@@ -227,11 +254,12 @@ class _HomePageState extends State<HomePage> {
                                                       child: Center(
                                                         child: Text(
                                                           '${asu.nomor}',
-                                                          style:
-                                                              GoogleFonts.inter(
+                                                          style: GoogleFonts
+                                                              .poppins(
                                                                   color: tColor
                                                                       .warna,
-                                                                  fontSize: 12,
+                                                                  fontSize:
+                                                                      14.sp,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600),
@@ -242,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                                                       '${asu.nama}',
                                                       style: GoogleFonts.amiri(
                                                         color: tColor.warna,
-                                                        fontSize: 17,
+                                                        fontSize: 17.sp,
                                                         letterSpacing: 0.5,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -253,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                                                       style:
                                                           GoogleFonts.poppins(
                                                         color: tColor.warna,
-                                                        fontSize: 14,
+                                                        fontSize: 16.sp,
                                                         letterSpacing: 0.5,
                                                         fontWeight:
                                                             FontWeight.w400,
@@ -262,14 +290,13 @@ class _HomePageState extends State<HomePage> {
                                                     subtitle: Row(
                                                       children: [
                                                         Text(
-                                                          '${asu.arti} ',
+                                                          '${asu.jumlah_ayat} AYAT ',
                                                           style: GoogleFonts
                                                               .poppins(
                                                             color: Colors.grey,
-                                                            fontSize: 12,
-                                                            letterSpacing: 0.5,
+                                                            fontSize: 14.sp,
                                                             fontWeight:
-                                                                FontWeight.w500,
+                                                                FontWeight.w300,
                                                           ),
                                                         ),
                                                         Text(
@@ -277,10 +304,9 @@ class _HomePageState extends State<HomePage> {
                                                           style: GoogleFonts
                                                               .poppins(
                                                             color: Colors.grey,
-                                                            fontSize: 12,
-                                                            letterSpacing: 0.5,
+                                                            fontSize: 14.sp,
                                                             fontWeight:
-                                                                FontWeight.w500,
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ],
@@ -298,10 +324,28 @@ class _HomePageState extends State<HomePage> {
                               )),
                         ),
                         Center(
-                          child: Text("Juz Page"),
+                          child: Container(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: tColor.warna,
+                              )),
                         ),
                         Center(
-                          child: Text("Bookmarks"),
+                          child: Container(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: tColor.warna,
+                              )),
+                        ),
+                        Center(
+                          child: Container(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                color: tColor.warna,
+                              )),
                         ),
                       ]),
                     )

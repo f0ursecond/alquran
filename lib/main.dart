@@ -5,6 +5,7 @@ import 'package:crud/provider/quran_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,18 +28,20 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProductProvider()),
         ChangeNotifierProvider(create: (context) => QuranProvider())
       ],
-      child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: loginPage(),
-          theme: ThemeData.from(
-            colorScheme: ColorScheme.light(),
-          ).copyWith(
-            pageTransitionsTheme: const PageTransitionsTheme(
-              builders: <TargetPlatform, PageTransitionsBuilder>{
-                TargetPlatform.android: ZoomPageTransitionsBuilder(),
-              },
-            ),
-          )),
+      child: ResponsiveSizer(
+        builder: (p0, p1, p2) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: loginPage(),
+            theme: ThemeData.from(
+              colorScheme: ColorScheme.light(),
+            ).copyWith(
+              pageTransitionsTheme: const PageTransitionsTheme(
+                builders: <TargetPlatform, PageTransitionsBuilder>{
+                  TargetPlatform.android: ZoomPageTransitionsBuilder(),
+                },
+              ),
+            )),
+      ),
     );
   }
 }

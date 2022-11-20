@@ -49,6 +49,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
   cherry_toast: ^1.0.8
   animations: ^2.0.7
+  responsive_sizer: ^3.1.1
   
   
   
@@ -79,6 +80,7 @@ flutter:
   assets:
     - assets/animations/nointernet.json
     - assets/images/leading.png
+    - assets/images/kitab.png
     
     
 
