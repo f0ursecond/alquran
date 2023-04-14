@@ -1,3 +1,4 @@
+import 'package:crud/page/components/splash.dart';
 import 'package:crud/page/homepage.dart';
 import 'package:crud/page/loginpage.dart';
 import 'package:crud/provider/app_color.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       child: ResponsiveSizer(
         builder: (p0, p1, p2) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: HomePage(),
+          home: SplashPage(),
           theme: ThemeData.from(
             colorScheme: ColorScheme.light(),
           ).copyWith(
