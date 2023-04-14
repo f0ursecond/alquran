@@ -13,11 +13,13 @@ class learn extends StatelessWidget {
       builder: (context, appColor, tColor, _) => Scaffold(
         backgroundColor: appColor.color,
         appBar: AppBar(
-          title: Text('beningg <3',
-              style: GoogleFonts.inter(
-                letterSpacing: 1,
-                color: appColor.color,
-              )),
+          title: Text(
+            'beningg <3',
+            style: GoogleFonts.inter(
+              letterSpacing: 1,
+              color: appColor.color,
+            ),
+          ),
           backgroundColor: Colors.greenAccent,
           elevation: 0,
         ),
@@ -59,11 +61,13 @@ class learn extends StatelessWidget {
                         }),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Dark Mode',
-                          style: GoogleFonts.inter(
-                            letterSpacing: 0.4,
-                            color: tColor.warna,
-                          )),
+                      child: Text(
+                        'Dark Mode',
+                        style: GoogleFonts.inter(
+                          letterSpacing: 0.4,
+                          color: tColor.warna,
+                        ),
+                      ),
                     ),
                   ],
                 )

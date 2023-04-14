@@ -80,8 +80,8 @@ class _HomePageState extends State<HomePage> {
                     Row(
                       children: [
                         Text(
-                          'ٱلسَّلَامُ عَلَيْكُمْ',
-                          style: GoogleFonts.amiri(
+                          'Asslamualaikum\nAlif Zulfanur',
+                          style: GoogleFonts.poppins(
                             color: tColor.warna,
                             fontSize: 20,
                             letterSpacing: 1,
@@ -92,61 +92,11 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color(0xFFDF98FA),
-                              Color(0xFF9055FF),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      height: 131,
-                      width: 326,
-                      child: Stack(
-                        children: [
-                          Image.asset(
-                            'assets/images/kitab.png',
-                            fit: BoxFit.contain,
-                            width: 50.sp,
-                            height: 40.sp,
-                          ),
-                        ],
-                      ),
-                    ),
+                    headerContainer(),
                     const SizedBox(
                       height: 5,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TabBar(
-                              labelStyle: TextStyle(fontSize: 15.sp),
-                              indicator: UnderlineTabIndicator(
-                                  borderSide: BorderSide(width: 1.0),
-                                  insets:
-                                      EdgeInsets.symmetric(horizontal: 16.0)),
-                              labelColor: tColor.warna,
-                              indicatorColor: tColor.warna,
-                              tabs: const [
-                                Tab(
-                                  text: 'Surah',
-                                ),
-                                Tab(
-                                  text: 'Para',
-                                ),
-                                Tab(
-                                  text: 'Page',
-                                ),
-                                Tab(
-                                  text: 'Hijb',
-                                )
-                              ]),
-                        ),
-                      ],
-                    ),
+                    tabBarRow(),
                     Expanded(
                       child: TabBarView(children: [
                         Consumer<QuranProvider>(
@@ -155,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                                 future: QuranService().getAll(),
                                 builder: ((context, index) {
                                   var value = QuranProvider;
-                                  final product = value.alquran;
+                                  final qs = value.alquran;
                                   if (index.error != null && !hasInternet) {
                                     return Row(
                                       mainAxisAlignment:
@@ -223,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                                         },
                                         itemCount: value.alquran.length,
                                         itemBuilder: ((context, index) {
-                                          final asu = product[index];
+                                          final asu = qs[index];
                                           return AnimationConfiguration
                                               .staggeredGrid(
                                             duration: const Duration(
@@ -245,8 +195,8 @@ class _HomePageState extends State<HomePage> {
                                                                 .symmetric(
                                                             horizontal: 5),
                                                     leading: Container(
-                                                      width: 35,
-                                                      height: 35,
+                                                      width: 45,
+                                                      height: 45,
                                                       decoration: const BoxDecoration(
                                                           image: DecorationImage(
                                                               image: AssetImage(
@@ -256,13 +206,11 @@ class _HomePageState extends State<HomePage> {
                                                           '${asu.nomor}',
                                                           style: GoogleFonts
                                                               .poppins(
-                                                                  color: tColor
-                                                                      .warna,
-                                                                  fontSize:
-                                                                      14.sp,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                            color: tColor.warna,
+                                                            fontSize: 14.sp,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
                                                         ),
                                                       ),
                                                     ),
@@ -290,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                                                     subtitle: Row(
                                                       children: [
                                                         Text(
-                                                          '${asu.jumlah_ayat} AYAT ',
+                                                          '${asu.jumlah_ayat} Ayat ',
                                                           style: GoogleFonts
                                                               .poppins(
                                                             color: Colors.grey,
@@ -305,6 +253,7 @@ class _HomePageState extends State<HomePage> {
                                                               .poppins(
                                                             color: Colors.grey,
                                                             fontSize: 14.sp,
+                                                            letterSpacing: 1,
                                                             fontWeight:
                                                                 FontWeight.w400,
                                                           ),
@@ -354,6 +303,124 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           )),
+    );
+  }
+}
+
+class tabBarRow extends StatelessWidget {
+  const tabBarRow({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: TabBar(
+              labelStyle: TextStyle(fontSize: 15.sp),
+              indicator: const UnderlineTabIndicator(
+                  borderSide: BorderSide(color: Colors.white, width: 1.0),
+                  insets: EdgeInsets.symmetric(horizontal: 16.0)),
+              tabs: const [
+                Tab(
+                  text: 'Surah',
+                ),
+                Tab(
+                  text: 'Para',
+                ),
+                Tab(
+                  text: 'Page',
+                ),
+                Tab(
+                  text: 'Hijb',
+                )
+              ]),
+        ),
+      ],
+    );
+  }
+}
+
+class headerContainer extends StatelessWidget {
+  const headerContainer({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFDF98FA),
+            Color(0xFF9055FF),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      height: 131,
+      width: 326,
+      child: Stack(
+        children: [
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    'Last Read',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30.0, left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Al-Fatihah',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        'Ayat No 1',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 40,
+            left: 150,
+            right: 0,
+            bottom: 0,
+            child: Transform(
+              transform: Matrix4.translationValues(12, 5, 0),
+              child: Image.asset(
+                'assets/images/kitab.png',
+                fit: BoxFit.contain,
+                width: 50.sp,
+                height: 40.sp,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

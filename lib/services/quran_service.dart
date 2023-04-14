@@ -25,7 +25,7 @@ class QuranService {
         }).toList();
         return alquran;
       } else {
-        throw (response.statusCode);
+        throw ('Error: ${response.statusCode}');
       }
     } catch (err) {
       throw (err);

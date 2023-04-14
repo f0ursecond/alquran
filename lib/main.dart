@@ -1,3 +1,4 @@
+import 'package:crud/page/homepage.dart';
 import 'package:crud/page/loginpage.dart';
 import 'package:crud/provider/app_color.dart';
 import 'package:crud/provider/product_provider.dart';
@@ -30,17 +31,18 @@ class MyApp extends StatelessWidget {
       ],
       child: ResponsiveSizer(
         builder: (p0, p1, p2) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: loginPage(),
-            theme: ThemeData.from(
-              colorScheme: ColorScheme.light(),
-            ).copyWith(
-              pageTransitionsTheme: const PageTransitionsTheme(
-                builders: <TargetPlatform, PageTransitionsBuilder>{
-                  TargetPlatform.android: ZoomPageTransitionsBuilder(),
-                },
-              ),
-            )),
+          debugShowCheckedModeBanner: false,
+          home: HomePage(),
+          theme: ThemeData.from(
+            colorScheme: ColorScheme.light(),
+          ).copyWith(
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: <TargetPlatform, PageTransitionsBuilder>{
+                TargetPlatform.android: ZoomPageTransitionsBuilder(),
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
