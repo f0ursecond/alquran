@@ -1,6 +1,4 @@
 import 'package:crud/page/components/splash.dart';
-import 'package:crud/page/homepage.dart';
-import 'package:crud/page/loginpage.dart';
 import 'package:crud/provider/app_color.dart';
 import 'package:crud/provider/product_provider.dart';
 import 'package:crud/provider/quran_provider.dart';
@@ -33,9 +31,9 @@ class MyApp extends StatelessWidget {
       child: ResponsiveSizer(
         builder: (p0, p1, p2) => MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SplashPage(),
+          home: const SplashPage(),
           theme: ThemeData.from(
-            colorScheme: ColorScheme.light(),
+            colorScheme: const ColorScheme.light(),
           ).copyWith(
             pageTransitionsTheme: const PageTransitionsTheme(
               builders: <TargetPlatform, PageTransitionsBuilder>{

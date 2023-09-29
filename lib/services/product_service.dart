@@ -6,29 +6,24 @@ import 'package:http/http.dart' as http;
 class ProductService {
   Future<List<Product>> getAll() async {
     const url = 'https://jsonplaceholder.typicode.com/todos';
-    final uri = Uri.parse(url);
+
+    final response = await http.get(Uri.parse(url));
+
+    final body = jsonDecode(response.body);
 
     try {
-      final response = await http.get(uri);
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        final json = jsonDecode(response.body) as List;
-        final product = json.map((e) {
-          return Product(
-              id: e['id'],
-              userId: e['userId'],
-              title: e['title'],
-              completed: e['completed']);
-        }).toList();
-        return product;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        List<dynamic> data = body;
+        List<Product> result = data.map((e) => Product.fromJson(e)).toList();
+
+        return result;
       } else {
         throw (response.statusCode);
       }
     } catch (err) {
-      throw (err);
+      throw Exception(
+        err.toString(),
+      );
     }
   }
 }
-
-// if (response.statusCode == 200) {
-      
-//     }

@@ -9,4 +9,13 @@ class Product {
       required this.userId,
       required this.title,
       required this.completed});
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      userId: json['userId'],
+      title: json['title'],
+      completed: json['completed'],
+    );
+  }
 }
