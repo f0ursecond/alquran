@@ -15,7 +15,7 @@ class PrayerRepository {
           Uri.parse('https://islamic-api-zhirrr.vercel.app/api/doaharian'));
 
       print('response =>> ' + response.statusCode.toString());
-      print('response body =>> ' + response.body);
+
       final body = jsonDecode(utf8.decode(response.bodyBytes));
 
       if (response.statusCode == 200 || response.statusCode == 201) {

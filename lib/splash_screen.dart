@@ -1,4 +1,5 @@
-import 'package:alquran/features/prayer/prayer_screen.dart';
+import 'package:alquran/constant/route_path.dart';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,8 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 void ya(context) {
   Future.delayed(const Duration(seconds: 1), () {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const PrayerScreen()));
+    Navigator.pushNamed(context, RoutePath.homeScreen);
   });
 }
 
