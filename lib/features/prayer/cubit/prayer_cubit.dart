@@ -10,7 +10,7 @@ class PrayerCubit extends Cubit<PrayerState> {
 
   final repository = PrayerRepository();
 
-  void getPrayerList() async {
+  Future getPrayerList() async {
     emit(PrayerListLoading());
     var result = await repository.getListPrayer();
     result.fold((l) => emit(PrayerListFailure(message: l.message)),
