@@ -2,6 +2,7 @@ import 'package:alquran/features/prayer/cubit/prayer_cubit.dart';
 import 'package:alquran/features/prayer/model/prayer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 import '../../shared_widgets/custom_shimmer_loading.dart';
 
@@ -32,7 +33,8 @@ class PrayerScreen extends StatelessWidget {
                     textInputAction: TextInputAction.search,
                     onChanged: search.search,
                     decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
                       hintText: 'Search',
                       suffixIcon: Align(
                         heightFactor: 1.0,
@@ -141,9 +143,10 @@ class ExpansionTileContent extends StatelessWidget {
             child: Text(
               textAlign: TextAlign.end,
               data.arabic ?? '',
-              style: const TextStyle(
-                fontSize: 24,
-                overflow: TextOverflow.visible,
+              overflow: TextOverflow.visible,
+              style: GoogleFonts.amiriQuran(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
