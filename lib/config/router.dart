@@ -14,6 +14,8 @@ class AppRouter {
         return RouteBuilder.splashScreen();
       case RoutePath.homeScreen:
         return RouteBuilder.homeScreen();
+      case RoutePath.quranScreen:
+        return RouteBuilder.quranScreen();
 
       default:
         onErrorRoute();

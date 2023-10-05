@@ -12,18 +12,28 @@ import 'package:http/http.dart' as http;
 class QuranRepository {
   Future<Either<Failure, List<Quran>>> getListQuran() async {
     try {
-      final response =
-          await http.get(Uri.parse('https://equran.id/api/v2/surat'));
+      final response = await http.get(
+        Uri.parse('https://equran.id/api/v2/surat'),
+      );
 
       final body = jsonDecode(response.body);
-      print('response =>> ' + response.statusCode.toString());
+      print(
+          'quran response status code  =>> ' + response.statusCode.toString());
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final List<dynamic> data = body['data'];
-        final resultList = data.map((e) => Quran.fromJson(e)).toList();
-        return Right(resultList);
-      } else {
-        return const Left(ResponseEmptyFailure(message: 'Data Kosong'));
+      switch (response.statusCode) {
+        case 200:
+        case 201:
+          final List<dynamic> data = body['data'];
+          final resultList = data.map((e) => Quran.fromJson(e)).toList();
+          return Right(resultList);
+        case 400:
+          return const Left(BadRequestFailure(message: '400 | Error'));
+        case 404:
+          return const Left(ServerFailure(message: "404 | Not Found"));
+        default:
+          return const Left(ServerFailure(
+            message: "500 | Something Wrong With Server",
+          ));
       }
     } on SocketException {
       return const Left(ServerFailure(message: 'No Connection'));

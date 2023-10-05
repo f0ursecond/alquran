@@ -1,6 +1,8 @@
 import 'package:alquran/config/router.dart';
+import 'package:alquran/config/theme.dart';
 import 'package:alquran/constant/route_path.dart';
 import 'package:alquran/features/prayer/cubit/prayer_cubit.dart';
+import 'package:alquran/features/quran/cubit/quran_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,14 +19,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => PrayerCubit(),
         ),
+        BlocProvider(
+          create: (context) => QuranCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+        theme: myTheme(),
         onGenerateRoute: AppRouter.onGenerateRoute,
         initialRoute: RoutePath.splashScreen,
       ),

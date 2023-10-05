@@ -1,3 +1,4 @@
+import 'package:alquran/constant/route_path.dart';
 import 'package:alquran/features/prayer/prayer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -187,7 +188,9 @@ class QuranWidget extends StatelessWidget {
             color: Colors.green,
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, RoutePath.quranScreen);
+              },
               child: const Icon(FontAwesome.book_quran, color: Colors.white),
             ),
           ),
