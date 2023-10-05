@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors_in_immutables
+
 import 'package:alquran/features/quran/cubit/quran_cubit.dart';
 import 'package:alquran/features/quran/models/alquran_model.dart';
 import 'package:alquran/shared_widgets/custom_shimmer_loading.dart';
@@ -16,6 +18,7 @@ class QuranScreen extends StatefulWidget {
 class _QuranScreenState extends State<QuranScreen>
     with TickerProviderStateMixin {
   late final TabController _tabController;
+  final searchController = TextEditingController();
 
   @override
   void initState() {
@@ -25,15 +28,10 @@ class _QuranScreenState extends State<QuranScreen>
 
   @override
   Widget build(BuildContext context) {
+    var searchCubit = _SearchCubit();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Al Quran'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(EvaIcons.search_outline),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -43,20 +41,18 @@ class _QuranScreenState extends State<QuranScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Last Read",
-              style: GoogleFonts.poppins(fontSize: 16),
-            ),
-            SizedBox(
-              height: 60,
-              child: ListView.separated(
-                separatorBuilder: (context, _) => const SizedBox(width: 10),
-                itemCount: 5,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: ((context, index) {
-                  return const LastReadItemWidget();
-                }),
+            TextField(
+              controller: searchController,
+              onChanged: searchCubit.search,
+              decoration: const InputDecoration(
+                focusColor: Color(0xFF7f5539),
+                prefixIcon: Align(
+                    heightFactor: 1,
+                    widthFactor: 1,
+                    alignment: Alignment.center,
+                    child: Icon(EvaIcons.search_outline)),
+                hintText: 'Search',
+                border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 15),
@@ -69,12 +65,9 @@ class _QuranScreenState extends State<QuranScreen>
               ),
               child: TabBar(
                 controller: _tabController,
-                unselectedLabelStyle: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400,
-                ),
-                labelStyle: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w500,
-                ),
+                unselectedLabelStyle:
+                    GoogleFonts.poppins(fontWeight: FontWeight.w400),
+                labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                 splashBorderRadius: BorderRadius.circular(10),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
@@ -92,10 +85,11 @@ class _QuranScreenState extends State<QuranScreen>
                 controller: _tabController,
                 children: [
                   RefreshIndicator(
-                      onRefresh: () {
-                        return context.read<QuranCubit>().getListQuran();
-                      },
-                      child: SurahTabView()),
+                    onRefresh: () => context.read<QuranCubit>().getListQuran(),
+                    child: SurahTabView(
+                      searchCubit: searchCubit,
+                    ),
+                  ),
                   Text('Juz'),
                 ],
               ),
@@ -110,11 +104,15 @@ class _QuranScreenState extends State<QuranScreen>
 class SurahTabView extends StatelessWidget {
   SurahTabView({
     super.key,
+    required this.searchCubit,
   });
+
+  final _SearchCubit searchCubit;
 
   @override
   Widget build(BuildContext context) {
     final cubit = BlocProvider.of<QuranCubit>(context);
+
     return BlocProvider.value(
       value: cubit..getListQuran(),
       child: BlocConsumer<QuranCubit, QuranState>(
@@ -122,16 +120,29 @@ class SurahTabView extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           if (state is QuranSuccess) {
-            return state.resultList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: state.resultList.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      var data = state.resultList[index];
-                      return cardSurahItem(data);
-                    },
-                  )
-                : const Text('Kosong');
+            return BlocBuilder<_SearchCubit, String>(
+              bloc: searchCubit,
+              builder: (context, query) {
+                var raw = state.resultList;
+                var filteredList = raw
+                    .where((element) => element.namaLatin!
+                        .toLowerCase()
+                        .replaceAll('-', '')
+                        .replaceAll("'", '')
+                        .contains(query.toLowerCase()))
+                    .toList();
+                return filteredList.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: filteredList.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          var data = filteredList[index];
+                          return cardSurahItem(data);
+                        },
+                      )
+                    : const Text('Hasil Pencarian Tidak Ditemukan');
+              },
+            );
           } else if (state is QuranFailure) {
             return Text(state.message);
           } else {
@@ -185,26 +196,10 @@ class SurahTabView extends StatelessWidget {
   }
 }
 
-class LastReadItemWidget extends StatelessWidget {
-  const LastReadItemWidget({
-    super.key,
-  });
+class _SearchCubit extends Cubit<String> {
+  _SearchCubit() : super('');
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: const Color(0xFFe6ccb2),
-      ),
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text('Al-Mumtahanah'),
-          ],
-        ),
-      ),
-    );
+  void search(String query) {
+    emit(query.toLowerCase());
   }
 }
