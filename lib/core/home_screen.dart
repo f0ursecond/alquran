@@ -10,68 +10,70 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.25,
-              decoration: const BoxDecoration(
-                color: Colors.greenAccent,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.25,
+                decoration: const BoxDecoration(
+                  color: Colors.greenAccent,
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 32.0,
+                    vertical: 24,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Assalamualaikum',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text(
+                        'Alif Zulfanur',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        children: [
+                          Icon(
+                            FontAwesome.location_dot,
+                            size: 16,
+                            color: Colors.red,
+                          ),
+                          Text('Semarang', style: TextStyle(fontSize: 16)),
+                        ],
+                      ),
+                      SizedBox(height: 5),
+                    ],
+                  ),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              const PrayerScheduleWidget(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      'Assalamualaikum',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20,
-                      ),
-                    ),
-                    Text(
-                      'Alif Zulfanur',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 15),
-                    Row(
-                      children: [
-                        Icon(
-                          FontAwesome.location_dot,
-                          size: 16,
-                          color: Colors.red,
-                        ),
-                        Text('Semarang', style: TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    SizedBox(height: 5),
+                    PrayerWidget(),
+                    QuranWidget(),
                   ],
                 ),
               ),
-            ),
-            const PrayerScheduleWidget(),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  PrayerWidget(),
-                  QuranWidget(),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            const QuoteWidget()
-          ],
+              const SizedBox(height: 20),
+              const QuoteWidget()
+            ],
+          ),
         ),
       ),
     );
