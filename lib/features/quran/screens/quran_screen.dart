@@ -115,9 +115,7 @@ class SurahTabView extends StatelessWidget {
 
     return BlocProvider.value(
       value: cubit..getListQuran(),
-      child: BlocConsumer<QuranCubit, QuranState>(
-        bloc: cubit,
-        listener: (context, state) {},
+      child: BlocBuilder<QuranCubit, QuranState>(
         builder: (context, state) {
           if (state is QuranSuccess) {
             return BlocBuilder<_SearchCubit, String>(
