@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:alquran/features/quran/models/alquran_detail_model.dart';
 import 'package:alquran/features/quran/models/alquran_model.dart';
 import 'package:alquran/utils/failure.dart';
 import 'package:dartz/dartz.dart';
@@ -15,10 +15,7 @@ class QuranRepository {
       final response = await http.get(
         Uri.parse('https://equran.id/api/v2/surat'),
       );
-
       final body = jsonDecode(response.body);
-      print(
-          'quran response status code  =>> ' + response.statusCode.toString());
 
       switch (response.statusCode) {
         case 200:
@@ -39,6 +36,31 @@ class QuranRepository {
       return const Left(ServerFailure(message: 'No Connection'));
     } on TimeoutException {
       return const Left(ServerFailure(message: 'Connection timeout'));
+    } on Error catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, ResQuranDetail>> getQuranById(int id) async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://equran.id/api/v2/surat/$id'),
+      );
+      final body = jsonDecode(response.body);
+
+      switch (response.statusCode) {
+        case 200:
+        case 201:
+          return Right(ResQuranDetail.fromJson(body['data'] ?? {}));
+        case 400:
+          return const Left(BadRequestFailure(message: '400 | Error'));
+        case 404:
+          return const Left(ServerFailure(message: "404 | Not Found"));
+        default:
+          return const Left(ServerFailure(
+            message: "500 | Something Wrong With Server",
+          ));
+      }
     } on Error catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

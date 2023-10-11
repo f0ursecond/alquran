@@ -6,6 +6,8 @@ import 'package:alquran/features/quran/cubit/quran_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/quran/cubit/quran_detail_cubit.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -21,6 +23,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => QuranCubit(),
+        ),
+        BlocProvider(
+          create: (context) => QuranDetailCubit(),
         ),
       ],
       child: MaterialApp(

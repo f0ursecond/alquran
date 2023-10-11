@@ -9,7 +9,7 @@ ThemeData myTheme() {
     appBarTheme: const AppBarTheme(
       backgroundColor: Color(0xFFede0d4),
       elevation: 0,
-      titleTextStyle: TextStyle(color: Colors.black),
+      titleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
       iconTheme: IconThemeData(color: Colors.black),
     ),
   );

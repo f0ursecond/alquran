@@ -2,6 +2,7 @@
 
 import 'package:alquran/features/quran/cubit/quran_cubit.dart';
 import 'package:alquran/features/quran/models/alquran_model.dart';
+import 'package:alquran/features/quran/screens/quran_detail_screen.dart';
 import 'package:alquran/shared_widgets/custom_shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,7 +75,7 @@ class _QuranScreenState extends State<QuranScreen>
                   color: const Color(0xFFddb892),
                 ),
                 tabs: const [
-                  Tab(text: 'Sura'),
+                  Tab(text: 'Surah'),
                   Tab(text: 'Juz'),
                 ],
               ),
@@ -115,9 +116,7 @@ class SurahTabView extends StatelessWidget {
 
     return BlocProvider.value(
       value: cubit..getListQuran(),
-      child: BlocConsumer<QuranCubit, QuranState>(
-        bloc: cubit,
-        listener: (context, state) {},
+      child: BlocBuilder<QuranCubit, QuranState>(
         builder: (context, state) {
           if (state is QuranSuccess) {
             return BlocBuilder<_SearchCubit, String>(
@@ -137,7 +136,20 @@ class SurahTabView extends StatelessWidget {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           var data = filteredList[index];
-                          return cardSurahItem(data);
+                          return cardSurahItem(
+                            data,
+                            () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuranDetailScreen(
+                                    id: data.nomor!,
+                                    surat: data.namaLatin!,
+                                  ),
+                                ),
+                              );
+                            },
+                          );
                         },
                       )
                     : const Text('Hasil Pencarian Tidak Ditemukan');
@@ -153,7 +165,7 @@ class SurahTabView extends StatelessWidget {
     );
   }
 
-  Card cardSurahItem(Quran data) {
+  Card cardSurahItem(Quran data, Function() ontap) {
     return Card(
       elevation: 0,
       child: Material(
@@ -162,7 +174,7 @@ class SurahTabView extends StatelessWidget {
         child: InkWell(
           hoverColor: const Color(0xFFede0d4),
           borderRadius: BorderRadius.circular(8),
-          onTap: () {},
+          onTap: ontap,
           child: ListTile(
             contentPadding: const EdgeInsets.all(8),
             leading: CircleAvatar(
