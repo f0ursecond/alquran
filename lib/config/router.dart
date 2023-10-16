@@ -16,7 +16,8 @@ class AppRouter {
         return RouteBuilder.homeScreen();
       case RoutePath.quranScreen:
         return RouteBuilder.quranScreen();
-
+      case RoutePath.registerScreen:
+        return RouteBuilder.registerScreen();
       default:
         onErrorRoute();
     }

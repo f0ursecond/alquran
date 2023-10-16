@@ -12,7 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 void ya(context) {
   Future.delayed(const Duration(seconds: 1), () {
-    Navigator.pushNamed(context, RoutePath.homeScreen);
+    Navigator.pushNamed(context, RoutePath.registerScreen);
   });
 }
 

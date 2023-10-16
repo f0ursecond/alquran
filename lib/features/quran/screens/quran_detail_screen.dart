@@ -47,7 +47,10 @@ class QuranDetailScreen extends StatelessWidget {
                             shrinkWrap: true,
                             itemCount: data.ayat.length,
                             itemBuilder: (context, index) {
-                              return AyatItemWidget(data: data, index: index);
+                              return AyatItemWidget(
+                                data: data,
+                                index: index,
+                              );
                             },
                           )
                         ],

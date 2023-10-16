@@ -116,7 +116,7 @@ class QuoteWidget extends StatelessWidget {
                 height: 8,
                 color: Colors.grey.shade300,
               ),
-              Text(
+              const Text(
                 'Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya',
               ),
             ],
