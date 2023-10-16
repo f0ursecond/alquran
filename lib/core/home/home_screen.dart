@@ -181,8 +181,8 @@ class QuranWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 50,
-          height: 50,
+          width: 60,
+          height: 60,
           child: Material(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -215,8 +215,8 @@ class PrayerWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 50,
-          height: 50,
+          width: 60,
+          height: 60,
           child: Material(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
