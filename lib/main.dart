@@ -1,6 +1,8 @@
 import 'package:alquran/config/router.dart';
 import 'package:alquran/config/theme.dart';
 import 'package:alquran/constant/route_path.dart';
+import 'package:alquran/core/authentication/cubit/login_cubit.dart';
+import 'package:alquran/core/authentication/cubit/logout_cubit.dart';
 import 'package:alquran/core/authentication/cubit/register_cubit.dart';
 import 'package:alquran/features/prayer/cubit/prayer_cubit.dart';
 import 'package:alquran/features/quran/cubit/quran_cubit.dart';
@@ -37,6 +39,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => RegisterCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LoginCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LogoutCubit(),
         ),
       ],
       child: MaterialApp(

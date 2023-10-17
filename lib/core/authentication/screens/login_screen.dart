@@ -1,15 +1,14 @@
 import 'dart:async';
 
 import 'package:alquran/constant/route_path.dart';
-import 'package:alquran/core/authentication/cubit/register_cubit.dart';
-import 'package:alquran/core/authentication/screens/login_screen.dart';
+import 'package:alquran/core/authentication/cubit/login_cubit.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +58,13 @@ class RegisterScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               BlocProvider.value(
-                value: BlocProvider.of<RegisterCubit>(context),
-                child: BlocConsumer<RegisterCubit, RegisterState>(
+                value: BlocProvider.of<LoginCubit>(context),
+                child: BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
-                    if (state is RegisterSuccess) {
+                    if (state is LoginSuccess) {
                       Flushbar(
                         title: 'Congratulations!',
-                        message: 'Register Success',
+                        message: 'Login Success',
                         duration: const Duration(seconds: 3),
                       ).show(context);
                       if (context.mounted) {
@@ -77,7 +76,7 @@ class RegisterScreen extends StatelessWidget {
                           );
                         });
                       }
-                    } else if (state is RegisterFailure) {
+                    } else if (state is LoginFailure) {
                       Flushbar(
                         backgroundColor: Colors.redAccent,
                         title: 'Ooopss!!!',
@@ -87,7 +86,7 @@ class RegisterScreen extends StatelessWidget {
                     }
                   },
                   builder: (context, state) {
-                    var loading = state is RegisiterLoading;
+                    var loading = state is LoginLoading;
                     return SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -98,7 +97,7 @@ class RegisterScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           onTap: () {
                             if (formKey.currentState!.validate()) {
-                              context.read<RegisterCubit>().register(
+                              context.read<LoginCubit>().login(
                                     emailController.text,
                                     passwordController.text,
                                   );
@@ -109,7 +108,7 @@ class RegisterScreen extends StatelessWidget {
                                 ? LoadingAnimationWidget.prograssiveDots(
                                     color: Colors.white, size: 30)
                                 : const Text(
-                                    'Register',
+                                    'Login',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
@@ -125,18 +124,14 @@ class RegisterScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already Have an Account?'),
+                  const Text("Don't Have an Account?"),
                   const SizedBox(width: 10),
                   InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                        );
+                        Navigator.pushNamed(context, RoutePath.registerScreen);
                       },
                       child: const Text(
-                        'Login',
+                        'Register',
                         style: TextStyle(color: Colors.green),
                       ))
                 ],

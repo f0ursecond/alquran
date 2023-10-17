@@ -1,5 +1,6 @@
 import 'package:alquran/constant/route_path.dart';
 import 'package:alquran/features/prayer/prayer_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -7,9 +8,22 @@ import 'package:icons_plus/icons_plus.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  Future<String> getEmail() async {
+    var email = FirebaseAuth.instance.currentUser?.email;
+    return email!;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.logout_outlined),
+          )
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -24,27 +38,36 @@ class HomeScreen extends StatelessWidget {
                     bottomLeft: Radius.circular(15),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 32.0,
                     vertical: 24,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Assalamualaikum',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 20,
                         ),
                       ),
-                      Text(
-                        'Alif Zulfanur',
-                        style: TextStyle(fontSize: 16),
+                      FutureBuilder(
+                        future: getEmail(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Text(
+                              snapshot.data ?? '',
+                              style: const TextStyle(fontSize: 16),
+                            );
+                          } else {
+                            return const Text('Guest');
+                          }
+                        },
                       ),
-                      SizedBox(height: 15),
-                      Row(
+                      const SizedBox(height: 15),
+                      const Row(
                         children: [
                           Icon(
                             FontAwesome.location_dot,
@@ -54,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                           Text('Semarang', style: TextStyle(fontSize: 16)),
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                     ],
                   ),
                 ),
