@@ -106,7 +106,7 @@ class RegisterScreen extends StatelessWidget {
                           },
                           child: Center(
                             child: loading
-                                ? LoadingAnimationWidget.prograssiveDots(
+                                ? LoadingAnimationWidget.discreteCircle(
                                     color: Colors.white, size: 30)
                                 : const Text(
                                     'Register',

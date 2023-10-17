@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:alquran/constant/route_path.dart';
+import 'package:alquran/core/home/menu_screen.dart';
 import 'package:alquran/features/prayer/prayer_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +20,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        elevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.logout_outlined),
-          )
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MenuScreen()),
+                );
+              },
+              icon: const Icon(Icons.settings, color: Colors.white))
         ],
       ),
       body: SafeArea(
