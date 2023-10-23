@@ -107,36 +107,7 @@ class LogoutButton extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(8),
           onTap: () async {
-            await showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    content: const Text('Apakah anda yakin ingin keluar?'),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              child: const Text('Batal'),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            ElevatedButton(
-                              child: const Text('Keluar'),
-                              onPressed: () {
-                                context.read<LogoutCubit>().logOut();
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  );
-                });
+            await showLogout(context);
           },
           child: const Center(
             child: Text(
@@ -147,5 +118,38 @@ class LogoutButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<dynamic> showLogout(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: const Text('Apakah anda yakin ingin keluar?'),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      child: const Text('Batal'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ElevatedButton(
+                      child: const Text('Keluar'),
+                      onPressed: () {
+                        context.read<LogoutCubit>().logOut();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              )
+            ],
+          );
+        });
   }
 }

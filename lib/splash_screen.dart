@@ -1,4 +1,5 @@
 import 'package:alquran/constant/route_path.dart';
+import 'package:alquran/core/authentication/screens/test_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -30,7 +31,15 @@ void checkLogin(context) async {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    checkLogin(context);
+    // checkLogin(context);
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => TestFormPage(),
+        ),
+      );
+    });
     super.initState();
   }
 

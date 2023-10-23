@@ -4,6 +4,7 @@ import 'package:alquran/constant/route_path.dart';
 import 'package:alquran/core/authentication/cubit/login_cubit.dart';
 import 'package:alquran/core/authentication/cubit/logout_cubit.dart';
 import 'package:alquran/core/authentication/cubit/register_cubit.dart';
+import 'package:alquran/core/user/cubit/user_cubit.dart';
 import 'package:alquran/features/prayer/cubit/prayer_cubit.dart';
 import 'package:alquran/features/quran/cubit/quran_cubit.dart';
 import 'package:alquran/firebase_options.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LogoutCubit(),
+        ),
+        BlocProvider(
+          create: (context) => UserCubit(),
         ),
       ],
       child: MaterialApp(
