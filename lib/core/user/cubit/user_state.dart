@@ -40,3 +40,15 @@ final class UserDeleteFailure extends UserState {
 
   final Failure failure;
 }
+
+// CREATE USER
+
+final class CreateUserLoading extends UserState {}
+
+final class CreateUserSuccess extends UserState {}
+
+final class CreateUserFailure extends UserState {
+  const CreateUserFailure({required this.failure}) : super();
+
+  final Failure failure;
+}

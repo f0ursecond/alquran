@@ -31,4 +31,14 @@ class UserCubit extends Cubit<UserState> {
       (r) => emit(UserDeleteSuccess(id: id, name: name)),
     );
   }
+
+  Future<void> createUser(String name, String avatarUrl, String age) async {
+    emit(CreateUserLoading());
+
+    var result = await repo.createUser(name, avatarUrl, age);
+    result.fold(
+      (l) => emit(CreateUserFailure(failure: l)),
+      (r) => emit(CreateUserSuccess()),
+    );
+  }
 }
