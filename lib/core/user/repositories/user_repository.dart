@@ -42,7 +42,7 @@ class UserRepository {
     }
   }
 
-  Future<Either<Failure, List<UserModel>>> createUser(
+  Future<Either<Failure, UserModel>> createUser(
       String name, String avatarUrl, String age) async {
     try {
       String url = 'https://65228ebdf43b17938414a1e8.mockapi.io/api/users';
@@ -68,10 +68,44 @@ class UserRepository {
 
       switch (response.statusCode) {
         case 200:
-          List<dynamic> data = body;
-          List<UserModel> result =
-              data.map((e) => UserModel.fromJson(e)).toList();
-          return Right(result);
+        case 201:
+          return Right(UserModel.fromJson(body));
+        case 400:
+          return const Left(BadRequestFailure(message: 'Bad Request'));
+        case 404:
+          return const Left(ServerFailure(message: "404 | Not Found"));
+        default:
+          return Left(
+            ServerFailure(
+              message: response.statusCode.toString(),
+            ),
+          );
+      }
+    } on SocketException {
+      return const Left(ServerFailure(message: 'Tidak Ada Koneksi'));
+    } on Error catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, UserModel>> updateUser(
+      String name, String avatarUrl, String age, String id) async {
+    try {
+      String url = 'https://65228ebdf43b17938414a1e8.mockapi.io/api/users/$id';
+
+      final response = await http.put(Uri.parse(url), headers: {
+        HttpHeaders.acceptHeader: 'application/json',
+      }, body: {
+        'name': name,
+        'avatarUrl': avatarUrl,
+        'age': age,
+      });
+
+      final body = jsonDecode(response.body);
+
+      switch (response.statusCode) {
+        case 200:
+          return Right(UserModel.fromJson(body));
         case 400:
           return const Left(BadRequestFailure(message: 'Bad Request'));
         case 404:

@@ -52,3 +52,19 @@ final class CreateUserFailure extends UserState {
 
   final Failure failure;
 }
+
+// UPDATE USER
+
+final class UpdateUserLoading extends UserState {}
+
+final class UpdateUserSuccess extends UserState {
+  const UpdateUserSuccess({required this.id}) : super();
+
+  final String id;
+}
+
+final class UpdateUserFailure extends UserState {
+  const UpdateUserFailure({required this.failure}) : super();
+
+  final Failure failure;
+}
