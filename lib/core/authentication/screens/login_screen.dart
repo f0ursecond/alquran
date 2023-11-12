@@ -27,13 +27,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               Container(),
               TextFormField(
-                validator: (value) {
-                  if (value == "" && value!.isEmpty) {
-                    return 'Email Harus Diisi';
-                  }
-                  return null;
-                },
-                controller: emailController,
+                //controller: emailController,
+                initialValue: '2ez4second@gmail.com',
                 decoration: const InputDecoration(
                   hintText: 'Email',
                   contentPadding: EdgeInsets.all(8),
@@ -42,14 +37,9 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                validator: (value) {
-                  if (value == "" && value!.isEmpty) {
-                    return 'Password Harus Diisi';
-                  }
-                  return null;
-                },
+                initialValue: '123456',
                 obscureText: true,
-                controller: passwordController,
+                //controller: passwordController,
                 decoration: const InputDecoration(
                   hintText: 'Password',
                   contentPadding: EdgeInsets.all(8),
@@ -61,21 +51,18 @@ class LoginScreen extends StatelessWidget {
                 value: BlocProvider.of<LoginCubit>(context),
                 child: BlocConsumer<LoginCubit, LoginState>(
                   listener: (context, state) {
+                    print('listener $state');
                     if (state is LoginSuccess) {
                       Flushbar(
                         title: 'Congratulations!',
                         message: 'Login Success',
                         duration: const Duration(seconds: 3),
                       ).show(context);
-                      if (context.mounted) {
-                        Timer(const Duration(seconds: 3), () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            RoutePath.homeScreen,
-                            (route) => false,
-                          );
-                        });
-                      }
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RoutePath.homeScreen,
+                        (route) => false,
+                      );
                     } else if (state is LoginFailure) {
                       Flushbar(
                         backgroundColor: Colors.redAccent,
@@ -87,6 +74,7 @@ class LoginScreen extends StatelessWidget {
                   },
                   builder: (context, state) {
                     var loading = state is LoginLoading;
+                    print('builder $state');
                     return SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -96,17 +84,17 @@ class LoginScreen extends StatelessWidget {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(8),
                           onTap: () {
-                            if (formKey.currentState!.validate()) {
-                              context.read<LoginCubit>().login(
-                                    emailController.text,
-                                    passwordController.text,
-                                  );
-                            }
+                            context.read<LoginCubit>().login(
+                                  '2ez4second@gmail.com',
+                                  '123456',
+                                );
                           },
                           child: Center(
                             child: loading
                                 ? LoadingAnimationWidget.discreteCircle(
-                                    color: Colors.white, size: 30)
+                                    color: Colors.black,
+                                    size: 25,
+                                  )
                                 : const Text(
                                     'Login',
                                     style: TextStyle(

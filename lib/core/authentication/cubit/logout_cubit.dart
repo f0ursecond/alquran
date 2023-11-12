@@ -16,7 +16,7 @@ class LogoutCubit extends Cubit<LogoutState> {
     var result = await repo.signOut();
     result.fold(
       (l) => emit(LogoutFailure(failure: l)),
-      (r) => emit(LogoutSuccess(result: r)),
+      (r) => emit(LogoutSuccess()),
     );
   }
 }

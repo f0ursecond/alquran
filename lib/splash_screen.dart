@@ -16,14 +16,21 @@ void checkLogin(context) async {
   FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user != null) {
       Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, RoutePath.homeScreen, (route) => false);
+        if (context != null && context.mounted) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, RoutePath.homeScreen, (route) => false);
+        }
       });
     } else {
-      Future.delayed(const Duration(seconds: 1), () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, RoutePath.registerScreen, (route) => false);
-      });
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          if (context != null && context.mounted) {
+            Navigator.pushNamedAndRemoveUntil(
+                context, RoutePath.registerScreen, (route) => false);
+          }
+        },
+      );
     }
   });
 }
@@ -31,15 +38,16 @@ void checkLogin(context) async {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // checkLogin(context);
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => TestFormPage(),
-        ),
-      );
-    });
+    checkLogin(context);
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   Navigator.pushAndRemoveUntil(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (_) => TestFormPage(),
+    //     ),
+    //     (route) => false,
+    //   );
+    // });
     super.initState();
   }
 

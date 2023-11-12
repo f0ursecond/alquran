@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
   Future<String> getEmail() async {
     var email = FirebaseAuth.instance.currentUser?.email;
-    return email!;
+    return email ?? 'Guest';
   }
 
   @override

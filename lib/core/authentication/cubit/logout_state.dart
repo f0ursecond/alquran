@@ -11,10 +11,7 @@ final class LogoutInitial extends LogoutState {}
 
 final class LogoutLoading extends LogoutState {}
 
-final class LogoutSuccess extends LogoutState {
-  const LogoutSuccess({required this.result}) : super();
-  final bool result;
-}
+final class LogoutSuccess extends LogoutState {}
 
 final class LogoutFailure extends LogoutState {
   const LogoutFailure({required this.failure}) : super();

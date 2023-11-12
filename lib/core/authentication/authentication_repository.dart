@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks
+
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -63,10 +65,9 @@ class AuthenticationRepository {
     }
   }
 
-  Future<Either<Failure, bool>> signOut() async {
+  Future<Either<Failure, void>> signOut() async {
     try {
-      await FirebaseAuth.instance.signOut();
-      return const Right(true);
+      return Right(await FirebaseAuth.instance.signOut());
     } on FirebaseAuthException catch (e) {
       print('this is e code => ${e.code}');
       String errorMessage =
@@ -84,6 +85,7 @@ class AuthenticationRepository {
     } on SocketException {
       return const Left(ServerFailure(message: 'Tidak Ada Koneksi'));
     } on Error catch (e) {
+      print('logout failure : $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

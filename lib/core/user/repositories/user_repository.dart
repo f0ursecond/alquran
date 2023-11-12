@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:alquran/core/user/models/user_model.dart';
 import 'package:alquran/utils/failure.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz_streaming.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {
@@ -46,13 +47,22 @@ class UserRepository {
     try {
       String url = 'https://65228ebdf43b17938414a1e8.mockapi.io/api/users';
 
-      final response = await http.post(Uri.parse(url), headers: {
-        HttpHeaders.acceptHeader: 'application/json',
-      }, body: {
-        'name': name,
-        'avatarUrl': avatarUrl,
-        'age': age,
-      });
+      final response = await http
+          .post(Uri.parse(url), headers: {
+            HttpHeaders.acceptHeader: 'application/json',
+          }, body: {
+            'name': name,
+            'avatarUrl': avatarUrl,
+            'age': age,
+          })
+          .timeout(const Duration(seconds: 15),
+              onTimeout: () => http.Response('Error', 408))
+          .onError((error, stackTrace) => http.Response(
+                jsonEncode({
+                  'message': 'no internet please connect to internet first'
+                }),
+                500,
+              ));
 
       final body = jsonDecode(response.body);
 
